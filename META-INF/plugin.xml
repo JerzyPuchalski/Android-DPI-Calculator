@@ -12,44 +12,36 @@
   -->
 
 <idea-plugin version="2">
-  <id>net.nerrd.intellij.plugin.dpicalculator</id>
-  <name>Android DPI Calculator</name>
-  <version>1.0</version>
-  <vendor email="kontakt@nerrd.net" url="http://nerrd.net">nerrd.net</vendor>
+    <id>net.nerrd.intellij.plugin.dpicalculator</id>
+    <name>Android DPI Calculator</name>
+    <version>1.0</version>
+    <vendor email="kontakt@nerrd.net" url="http://nerrd.net">nerrd.net</vendor>
 
-  <description><![CDATA[
-      An Android DPI calculator for all developers and designers.<br>
+    <description><![CDATA[
+      An Android DPI calculator for all developers and designers.<br><br>
       Allows you to calculate different sizes in all available default densities on Android platform.
     ]]></description>
 
-  <change-notes><![CDATA[
+    <change-notes><![CDATA[
 
     ]]>
-  </change-notes>
+    </change-notes>
 
-  <idea-version since-build="131"/>
+    <idea-version since-build="141.201"/>
 
-  <!-- please see https://confluence.jetbrains.com/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
-       on how to target different products -->
-  <!-- uncomment to enable plugin in all products
-  <depends>com.intellij.modules.lang</depends>
-  -->
+    <extensions defaultExtensionNs="com.intellij">
+    </extensions>
 
-  <extensions defaultExtensionNs="com.intellij">
-  </extensions>
+    <depends>com.intellij.modules.platform</depends>
+    <depends>org.jetbrains.android</depends>
 
-  <application-components>
-  </application-components>
-
-  <project-components>
-  </project-components>
-
-  <actions>
-    <action id="net.nerrd.intellij.plugin.DpiCalculatorAction"
-            class="net.nerrd.intellij.plugin.dpicalculator.action.DpiCalculatorAction" text="DPI Calculator"
-            description="Android DPI Calculator">
-      <add-to-group group-id="AndroidToolsGroup" anchor="last"/>
-    </action>
-  </actions>
+    <actions>
+        <action id="net.nerrd.intellij.plugin.DpiCalculatorAction"
+                class="net.nerrd.intellij.plugin.dpicalculator.action.DpiCalculatorAction" text="DPI Calculator"
+                description="Android DPI Calculator"
+                icon="/img/android-logo.png">
+            <add-to-group group-id="AndroidToolsGroup" anchor="last"/>
+        </action>
+    </actions>
 
 </idea-plugin>
