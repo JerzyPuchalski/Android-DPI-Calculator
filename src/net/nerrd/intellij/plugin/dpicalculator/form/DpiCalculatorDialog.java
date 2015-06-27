@@ -13,12 +13,16 @@
 
 package net.nerrd.intellij.plugin.dpicalculator.form;
 
+import net.nerrd.intellij.plugin.dpicalculator.util.Calculator;
+import net.nerrd.intellij.plugin.dpicalculator.util.Constants;
+import net.nerrd.intellij.plugin.dpicalculator.util.Dpi;
+
 import javax.swing.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * {@link JDialog} with UI to calculate Android DPI sizes
@@ -33,7 +37,6 @@ public class DpiCalculatorDialog extends JDialog {
     private JTextField mdpiTextField;
     private JTextField ldpiTextField;
     private JTextField tvdpiTextField;
-
     private ArrayList<JTextField> dpiTextFieldsSet;
 
     /**
@@ -45,6 +48,9 @@ public class DpiCalculatorDialog extends JDialog {
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 
+        final ActionListener escapeKeyListener = e -> setVisible(false);
+        getRootPane().registerKeyboardAction(escapeKeyListener, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+
         initDpiTextFieldsSet();
         initListeners();
 
@@ -53,158 +59,167 @@ public class DpiCalculatorDialog extends JDialog {
         setVisible(true);
     }
 
-    private void applyNewDensityValues(JTextField currentDpiTextField) {
-        // TODO: logic to calculate values for all densities
+    private void applyNewDensityValues(final JTextField currentDpiTextField) {
+        try {
+            final float originalSize = Float.valueOf(currentDpiTextField.getText());
+            final List<Float> ratios = Calculator.calculate(originalSize, dpiTextFieldsSet.indexOf(currentDpiTextField));
+
+            for (final JTextField textField : dpiTextFieldsSet) {
+                if (textField != currentDpiTextField) {
+                    textField.setText(formatSize(ratios.get(dpiTextFieldsSet.indexOf(textField))));
+                }
+            }
+        } catch (NumberFormatException ex) {
+            currentDpiTextField.setToolTipText("Enter integers or floating point numbers");
+        }
+    }
+
+    private String formatSize(final float size) {
+        String formattedSize;
+        if (size == Math.ceil(size)) {
+            formattedSize = String.valueOf(Math.round(size));
+        } else {
+            formattedSize = String.format("%.2f", size);
+        }
+
+        return formattedSize;
     }
 
     private void initDpiTextFieldsSet() {
-        dpiTextFieldsSet = new ArrayList<>();
-        dpiTextFieldsSet.add(xxxhdpiTextField);
-        dpiTextFieldsSet.add(xxhdpiTextField);
-        dpiTextFieldsSet.add(xhdpiTextField);
-        dpiTextFieldsSet.add(hdpiTextField);
-        dpiTextFieldsSet.add(mdpiTextField);
-        dpiTextFieldsSet.add(ldpiTextField);
-        dpiTextFieldsSet.add(tvdpiTextField);
-    }
-
-    private void removeNonNumericValues(JTextField textField) {
-        textField.setText(textField.getText().toString().replaceAll("\\D++", ""));
+        dpiTextFieldsSet = new ArrayList<>(Constants.DENSITIES_COUNT);
+        dpiTextFieldsSet.add(Dpi.XXXHDPI, xxxhdpiTextField);
+        dpiTextFieldsSet.add(Dpi.XXHDPI, xxhdpiTextField);
+        dpiTextFieldsSet.add(Dpi.XHDPI, xhdpiTextField);
+        dpiTextFieldsSet.add(Dpi.HDPI, hdpiTextField);
+        dpiTextFieldsSet.add(Dpi.MDPI, mdpiTextField);
+        dpiTextFieldsSet.add(Dpi.LDPI, ldpiTextField);
+        dpiTextFieldsSet.add(Dpi.TVDPI, tvdpiTextField);
     }
 
     private void onOK() {
-        dispose();
+        setVisible(false);
     }
 
     private void initListeners() {
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(final ActionEvent e) {
-                onOK();
-            }
-        });
+        buttonOK.addActionListener(e -> onOK());
 
         xxxhdpiTextField.addKeyListener(new KeyListener() {
             @Override
-            public void keyTyped(final KeyEvent e) {
+            public void keyTyped(final KeyEvent keyEvent) {
 
             }
 
             @Override
-            public void keyPressed(final KeyEvent e) {
+            public void keyPressed(final KeyEvent keyEvent) {
 
             }
 
             @Override
-            public void keyReleased(final KeyEvent e) {
-                removeNonNumericValues(xxxhdpiTextField);
-                applyNewDensityValues(xxxhdpiTextField);
+            public void keyReleased(final KeyEvent keyEvent) {
+                if (keyEvent.getKeyChar() != KeyEvent.CHAR_UNDEFINED) {
+                    applyNewDensityValues(xxxhdpiTextField);
+                }
             }
         });
 
         xxhdpiTextField.addKeyListener(new KeyListener() {
             @Override
-            public void keyTyped(final KeyEvent e) {
+            public void keyTyped(final KeyEvent keyEvent) {
 
             }
 
             @Override
-            public void keyPressed(final KeyEvent e) {
+            public void keyPressed(final KeyEvent keyEvent) {
 
             }
 
             @Override
-            public void keyReleased(final KeyEvent e) {
-                removeNonNumericValues(xxhdpiTextField);
+            public void keyReleased(final KeyEvent keyEvent) {
                 applyNewDensityValues(xxhdpiTextField);
             }
         });
 
         xhdpiTextField.addKeyListener(new KeyListener() {
             @Override
-            public void keyTyped(final KeyEvent e) {
+            public void keyTyped(final KeyEvent keyEvent) {
 
             }
 
             @Override
-            public void keyPressed(final KeyEvent e) {
+            public void keyPressed(final KeyEvent keyEvent) {
 
             }
 
             @Override
-            public void keyReleased(final KeyEvent e) {
-                removeNonNumericValues(xhdpiTextField);
+            public void keyReleased(final KeyEvent keyEvent) {
                 applyNewDensityValues(xhdpiTextField);
             }
         });
 
         hdpiTextField.addKeyListener(new KeyListener() {
             @Override
-            public void keyTyped(final KeyEvent e) {
+            public void keyTyped(final KeyEvent keyEvent) {
 
             }
 
             @Override
-            public void keyPressed(final KeyEvent e) {
+            public void keyPressed(final KeyEvent keyEvent) {
 
             }
 
             @Override
-            public void keyReleased(final KeyEvent e) {
-                removeNonNumericValues(hdpiTextField);
+            public void keyReleased(final KeyEvent keyEvent) {
                 applyNewDensityValues(hdpiTextField);
             }
         });
 
         mdpiTextField.addKeyListener(new KeyListener() {
             @Override
-            public void keyTyped(final KeyEvent e) {
+            public void keyTyped(final KeyEvent keyEvent) {
 
             }
 
             @Override
-            public void keyPressed(final KeyEvent e) {
+            public void keyPressed(final KeyEvent keyEvent) {
 
             }
 
             @Override
-            public void keyReleased(final KeyEvent e) {
-                removeNonNumericValues(mdpiTextField);
+            public void keyReleased(final KeyEvent keyEvent) {
                 applyNewDensityValues(mdpiTextField);
             }
         });
 
         ldpiTextField.addKeyListener(new KeyListener() {
             @Override
-            public void keyTyped(final KeyEvent e) {
+            public void keyTyped(final KeyEvent keyEvent) {
 
             }
 
             @Override
-            public void keyPressed(final KeyEvent e) {
+            public void keyPressed(final KeyEvent keyEvent) {
 
             }
 
             @Override
-            public void keyReleased(final KeyEvent e) {
-                removeNonNumericValues(ldpiTextField);
+            public void keyReleased(final KeyEvent keyEvent) {
                 applyNewDensityValues(ldpiTextField);
             }
         });
 
         tvdpiTextField.addKeyListener(new KeyListener() {
             @Override
-            public void keyTyped(final KeyEvent e) {
+            public void keyTyped(final KeyEvent keyEvent) {
 
             }
 
             @Override
-            public void keyPressed(final KeyEvent e) {
+            public void keyPressed(final KeyEvent keyEvent) {
 
             }
 
             @Override
-            public void keyReleased(final KeyEvent e) {
-                removeNonNumericValues(tvdpiTextField);
+            public void keyReleased(final KeyEvent keyEvent) {
                 applyNewDensityValues(tvdpiTextField);
             }
         });

@@ -18,8 +18,6 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import net.nerrd.intellij.plugin.dpicalculator.form.DpiCalculatorDialog;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
-
 /**
  * {@link AnAction} for DPI calculator
  */
@@ -29,7 +27,7 @@ public class DpiCalculatorAction extends AnAction {
      * Creates an {@link AnAction} for the DPI calculator
      */
     public DpiCalculatorAction() {
-        super("Android DPI Calculator", "Calculate values for different densities", new ImageIcon("img/android-logo.png"));
+        super("Android DPI Calculator");
     }
 
     @Override
