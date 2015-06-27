@@ -15,11 +15,13 @@
     <id>net.nerrd.intellij.plugin.dpicalculator</id>
     <name>Android DPI Calculator</name>
     <version>1.0</version>
-    <vendor email="kontakt@nerrd.net" url="http://nerrd.net">nerrd.net</vendor>
+    <vendor email="kontakt@nerrd.net" url="https://github.com/JerzyPuchalski/Android-DPI-Calculator">
+        nerrd.net
+    </vendor>
 
     <description><![CDATA[
       An Android DPI calculator for all developers and designers.<br><br>
-      Allows you to calculate different sizes in all available default densities on Android platform.
+      Allows you to calculate different sizes in all available default densities on Android platform, i.e.: xxxhdpi, xxhdpi, xhdpi, hdpi, mdpi, ldpi and tvdpi.
     ]]></description>
 
     <change-notes><![CDATA[
