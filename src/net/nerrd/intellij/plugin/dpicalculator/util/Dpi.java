@@ -14,10 +14,16 @@
 package net.nerrd.intellij.plugin.dpicalculator.util;
 
 /**
- * Constants for the project
+ * DPI constants for the project
  */
-public class Constants {
+public class Dpi {
 
-    public static final int DENSITIES_COUNT = 7;
+    public final static int XXXHDPI = 0;
+    public final static int XXHDPI = 1;
+    public final static int XHDPI = 2;
+    public final static int HDPI = 3;
+    public final static int MDPI = 4;
+    public final static int LDPI = 5;
+    public final static int TVDPI = 6;
 
 }

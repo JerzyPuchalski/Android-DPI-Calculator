@@ -14,10 +14,16 @@
 package net.nerrd.intellij.plugin.dpicalculator.util;
 
 /**
- * Constants for the project
+ * Ratios for each DPI
  */
-public class Constants {
+class DpiRatio {
 
-    public static final int DENSITIES_COUNT = 7;
+    public static final float RATIO_XXXHDPI = 4.0f;
+    public static final float RATIO_XXHDPI = 3.0f;
+    public static final float RATIO_XHDPI = 2.0f;
+    public static final float RATIO_HDPI = 1.5f;
+    public static final float RATIO_MDPI = 1.0f;
+    public static final float RATIO_LDPI = 0.75f;
+    public static final float RATIO_TVDPI = 1.33f;
 
 }
