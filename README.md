@@ -5,9 +5,14 @@ Android Studio plugin allowing to calculate sizes in different densities like xx
 
 Usage
 ------------
+
 You can access DPI Calculator within you IDE selecting an action:
+
 ![ActionMenu](https://raw.github.com/JerzyPuchalski/Android-DPI-Calculator/master/img/action.png)
+
+
 or from menu bar in Tools -> Android
+
 ![MenuBar](https://raw.github.com/JerzyPuchalski/Android-DPI-Calculator/master/img/menu.png)
 
 License
