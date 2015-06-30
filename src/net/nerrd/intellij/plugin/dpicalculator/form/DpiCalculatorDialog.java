@@ -18,9 +18,7 @@ import net.nerrd.intellij.plugin.dpicalculator.util.Constants;
 import net.nerrd.intellij.plugin.dpicalculator.util.Dpi;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +35,17 @@ public class DpiCalculatorDialog extends JDialog {
     private JTextField mdpiTextField;
     private JTextField ldpiTextField;
     private JTextField tvdpiTextField;
-    private ArrayList<JTextField> dpiTextFieldsSet;
+    private JLabel roundedTvdpi;
+    private JLabel roundedLdpi;
+    private JLabel roundedMdpi;
+    private JLabel roundedHdpi;
+    private JLabel roundedXhdpi;
+    private JLabel roundedXxhdpi;
+    private JLabel roundedXxxhdpi;
+    private List<JTextField> dpiTextFieldsSet;
+    private List<JLabel> roundedDpiLabelsSet;
+    private List<Float> sizes;
+    private List<Integer> sizesRounded;
 
     /**
      * Creates a new dialog to calculate DPI
@@ -51,7 +59,7 @@ public class DpiCalculatorDialog extends JDialog {
         final ActionListener escapeKeyListener = e -> setVisible(false);
         getRootPane().registerKeyboardAction(escapeKeyListener, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
 
-        initDpiTextFieldsSet();
+        initLists();
         initListeners();
 
         pack();
@@ -62,15 +70,42 @@ public class DpiCalculatorDialog extends JDialog {
     private void applyNewDensityValues(final JTextField currentDpiTextField) {
         try {
             final float originalSize = Float.valueOf(currentDpiTextField.getText());
-            final List<Float> ratios = Calculator.calculate(originalSize, dpiTextFieldsSet.indexOf(currentDpiTextField));
+            sizes = Calculator.calculate(originalSize, dpiTextFieldsSet.indexOf(currentDpiTextField));
+            sizesRounded = Calculator.calculateRoundedToScale(sizes);
 
-            for (final JTextField textField : dpiTextFieldsSet) {
-                if (textField != currentDpiTextField) {
-                    textField.setText(formatSize(ratios.get(dpiTextFieldsSet.indexOf(textField))));
-                }
-            }
+            updateInputs(currentDpiTextField);
+            updateRoundedValues();
         } catch (NumberFormatException ex) {
             currentDpiTextField.setToolTipText("Enter integers or floating point numbers");
+            removeValues();
+        }
+    }
+
+    private void updateRoundedValues() {
+        roundedXxxhdpi.setText(String.valueOf(sizesRounded.get(Dpi.XXXHDPI)));
+        roundedXxhdpi.setText(String.valueOf(sizesRounded.get(Dpi.XXHDPI)));
+        roundedXhdpi.setText(String.valueOf(sizesRounded.get(Dpi.XHDPI)));
+        roundedHdpi.setText(String.valueOf(sizesRounded.get(Dpi.HDPI)));
+        roundedMdpi.setText(String.valueOf(sizesRounded.get(Dpi.MDPI)));
+        roundedLdpi.setText(String.valueOf(sizesRounded.get(Dpi.LDPI)));
+        roundedTvdpi.setText(String.valueOf(sizesRounded.get(Dpi.TVDPI)));
+    }
+
+    private void moveRoundedValuesToInputs() {
+        xxxhdpiTextField.setText(String.valueOf(sizesRounded.get(Dpi.XXXHDPI)));
+        xxhdpiTextField.setText(String.valueOf(sizesRounded.get(Dpi.XXHDPI)));
+        xhdpiTextField.setText(String.valueOf(sizesRounded.get(Dpi.XHDPI)));
+        hdpiTextField.setText(String.valueOf(sizesRounded.get(Dpi.HDPI)));
+        mdpiTextField.setText(String.valueOf(sizesRounded.get(Dpi.MDPI)));
+        ldpiTextField.setText(String.valueOf(sizesRounded.get(Dpi.LDPI)));
+        tvdpiTextField.setText(String.valueOf(sizesRounded.get(Dpi.TVDPI)));
+    }
+
+    private void updateInputs(final JTextField currentDpiTextField) {
+        for (final JTextField textField : dpiTextFieldsSet) {
+            if (currentDpiTextField != null && textField != currentDpiTextField) {
+                textField.setText(formatSize(sizes.get(dpiTextFieldsSet.indexOf(textField))));
+            }
         }
     }
 
@@ -82,10 +117,20 @@ public class DpiCalculatorDialog extends JDialog {
             formattedSize = String.format("%.2f", size);
         }
 
-        return formattedSize;
+        return formattedSize.replaceAll(",", ".");
     }
 
-    private void initDpiTextFieldsSet() {
+    private void removeValues() {
+        for (final JTextField textField : dpiTextFieldsSet) {
+            textField.setText("");
+        }
+
+        for (final JLabel label : roundedDpiLabelsSet) {
+            label.setText(" ");
+        }
+    }
+
+    private void initLists() {
         dpiTextFieldsSet = new ArrayList<>(Constants.DENSITIES_COUNT);
         dpiTextFieldsSet.add(Dpi.XXXHDPI, xxxhdpiTextField);
         dpiTextFieldsSet.add(Dpi.XXHDPI, xxhdpiTextField);
@@ -94,6 +139,15 @@ public class DpiCalculatorDialog extends JDialog {
         dpiTextFieldsSet.add(Dpi.MDPI, mdpiTextField);
         dpiTextFieldsSet.add(Dpi.LDPI, ldpiTextField);
         dpiTextFieldsSet.add(Dpi.TVDPI, tvdpiTextField);
+
+        roundedDpiLabelsSet = new ArrayList<>(Constants.DENSITIES_COUNT);
+        roundedDpiLabelsSet.add(Dpi.XXXHDPI, roundedXxxhdpi);
+        roundedDpiLabelsSet.add(Dpi.XXHDPI, roundedXxhdpi);
+        roundedDpiLabelsSet.add(Dpi.XHDPI, roundedXhdpi);
+        roundedDpiLabelsSet.add(Dpi.HDPI, roundedHdpi);
+        roundedDpiLabelsSet.add(Dpi.MDPI, roundedMdpi);
+        roundedDpiLabelsSet.add(Dpi.LDPI, roundedLdpi);
+        roundedDpiLabelsSet.add(Dpi.TVDPI, roundedTvdpi);
     }
 
     private void onOK() {
@@ -103,7 +157,7 @@ public class DpiCalculatorDialog extends JDialog {
     private void initListeners() {
         buttonOK.addActionListener(e -> onOK());
 
-        xxxhdpiTextField.addKeyListener(new KeyListener() {
+        KeyListener inputChangeListener = new KeyListener() {
             @Override
             public void keyTyped(final KeyEvent keyEvent) {
 
@@ -117,112 +171,46 @@ public class DpiCalculatorDialog extends JDialog {
             @Override
             public void keyReleased(final KeyEvent keyEvent) {
                 if (keyEvent.getKeyChar() != KeyEvent.CHAR_UNDEFINED) {
-                    applyNewDensityValues(xxxhdpiTextField);
+                    applyNewDensityValues((JTextField) keyEvent.getSource());
                 }
             }
-        });
+        };
 
-        xxhdpiTextField.addKeyListener(new KeyListener() {
+        for (final JTextField textField : dpiTextFieldsSet) {
+            textField.addKeyListener(inputChangeListener);
+        }
+
+        MouseListener roundedValuesLabelClick = new MouseListener() {
             @Override
-            public void keyTyped(final KeyEvent keyEvent) {
+            public void mouseClicked(MouseEvent e) {
+                moveRoundedValuesToInputs();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
 
             }
 
             @Override
-            public void keyPressed(final KeyEvent keyEvent) {
+            public void mouseReleased(MouseEvent e) {
 
             }
 
             @Override
-            public void keyReleased(final KeyEvent keyEvent) {
-                applyNewDensityValues(xxhdpiTextField);
-            }
-        });
-
-        xhdpiTextField.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(final KeyEvent keyEvent) {
+            public void mouseEntered(MouseEvent e) {
 
             }
 
             @Override
-            public void keyPressed(final KeyEvent keyEvent) {
+            public void mouseExited(MouseEvent e) {
 
             }
+        };
 
-            @Override
-            public void keyReleased(final KeyEvent keyEvent) {
-                applyNewDensityValues(xhdpiTextField);
-            }
-        });
+        for (final JLabel label : roundedDpiLabelsSet) {
+            label.addMouseListener(roundedValuesLabelClick);
+        }
 
-        hdpiTextField.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(final KeyEvent keyEvent) {
-
-            }
-
-            @Override
-            public void keyPressed(final KeyEvent keyEvent) {
-
-            }
-
-            @Override
-            public void keyReleased(final KeyEvent keyEvent) {
-                applyNewDensityValues(hdpiTextField);
-            }
-        });
-
-        mdpiTextField.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(final KeyEvent keyEvent) {
-
-            }
-
-            @Override
-            public void keyPressed(final KeyEvent keyEvent) {
-
-            }
-
-            @Override
-            public void keyReleased(final KeyEvent keyEvent) {
-                applyNewDensityValues(mdpiTextField);
-            }
-        });
-
-        ldpiTextField.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(final KeyEvent keyEvent) {
-
-            }
-
-            @Override
-            public void keyPressed(final KeyEvent keyEvent) {
-
-            }
-
-            @Override
-            public void keyReleased(final KeyEvent keyEvent) {
-                applyNewDensityValues(ldpiTextField);
-            }
-        });
-
-        tvdpiTextField.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(final KeyEvent keyEvent) {
-
-            }
-
-            @Override
-            public void keyPressed(final KeyEvent keyEvent) {
-
-            }
-
-            @Override
-            public void keyReleased(final KeyEvent keyEvent) {
-                applyNewDensityValues(tvdpiTextField);
-            }
-        });
     }
 
 }

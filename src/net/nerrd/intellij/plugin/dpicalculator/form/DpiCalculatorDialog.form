@@ -48,14 +48,14 @@
               </grid>
             </constraints>
             <properties>
-              <text value="Enter size in one density to get the size in all other"/>
+              <text value="Enter size in one density to get the sizes in all other. Click on values below inputs to copy."/>
               <verticalAlignment value="1"/>
               <verticalTextPosition value="1"/>
             </properties>
           </component>
         </children>
       </grid>
-      <grid id="e3588" layout-manager="GridLayoutManager" row-count="2" column-count="7" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="e3588" layout-manager="GridLayoutManager" row-count="3" column-count="7" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -218,6 +218,76 @@
             </constraints>
             <properties>
               <text value="tvdpi"/>
+            </properties>
+          </component>
+          <component id="4fc22" class="javax.swing.JLabel" binding="roundedXxxhdpi">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font style="1"/>
+              <foreground color="-16776961"/>
+              <text value=" "/>
+            </properties>
+          </component>
+          <component id="9f80e" class="javax.swing.JLabel" binding="roundedXxhdpi">
+            <constraints>
+              <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font style="1"/>
+              <foreground color="-16776961"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="3f2f3" class="javax.swing.JLabel" binding="roundedXhdpi">
+            <constraints>
+              <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font style="1"/>
+              <foreground color="-16776961"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="dfd4c" class="javax.swing.JLabel" binding="roundedHdpi">
+            <constraints>
+              <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font style="1"/>
+              <foreground color="-16776961"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="1040" class="javax.swing.JLabel" binding="roundedMdpi">
+            <constraints>
+              <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font style="1"/>
+              <foreground color="-16776961"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="93250" class="javax.swing.JLabel" binding="roundedLdpi">
+            <constraints>
+              <grid row="2" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font style="1"/>
+              <foreground color="-16776961"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="f8ff6" class="javax.swing.JLabel" binding="roundedTvdpi">
+            <constraints>
+              <grid row="2" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font style="1"/>
+              <foreground color="-16776961"/>
+              <text value=""/>
             </properties>
           </component>
         </children>
