@@ -21,6 +21,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * {@link JDialog} with UI to calculate Android DPI sizes
@@ -178,6 +179,7 @@ public class DpiCalculatorDialog extends JDialog {
 
         for (final JTextField textField : dpiTextFieldsSet) {
             textField.addKeyListener(inputChangeListener);
+            textField.getInputContext().selectInputMethod(new Locale("en", "US"));
         }
 
         MouseListener roundedValuesLabelClick = new MouseListener() {

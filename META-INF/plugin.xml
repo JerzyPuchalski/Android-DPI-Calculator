@@ -14,7 +14,7 @@
 <idea-plugin version="2">
     <id>net.nerrd.intellij.plugin.dpicalculator</id>
     <name>Android DPI Calculator</name>
-    <version>1.1</version>
+    <version>1.2</version>
     <vendor email="kontakt@nerrd.net" url="https://github.com/JerzyPuchalski/Android-DPI-Calculator">
         nerrd.net
     </vendor>
@@ -25,6 +25,10 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        v1.2
+        <ul>
+            <li>Fixed UI colors that look terrible on Dracula theme</li>
+        </ul>
         v1.1
         <ul>
             <li>Added rounding to "best" scaled ratio</li>
