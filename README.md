@@ -15,6 +15,11 @@ or from menu bar in Tools -> Android
 
 ![MenuBar](https://raw.github.com/JerzyPuchalski/Android-DPI-Calculator/master/img/menu.png)
 
+Donate
+-------
+If you wish to send me some money to acknowledge my work and allow me to continue my development you can always make a [donation](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4PWFFVP6LSDDU). Any amount is greatly appreciated!
+
+
 License
 -------
 
