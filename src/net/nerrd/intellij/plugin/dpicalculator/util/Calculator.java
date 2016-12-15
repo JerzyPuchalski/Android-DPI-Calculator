@@ -35,7 +35,7 @@ public class Calculator {
                 mdpi = originalSize / DpiRatio.RATIO_XXXHDPI;
                 break;
             case Dpi.XXHDPI:
-                mdpi = originalSize / DpiRatio.RATIO_XHDPI;
+                mdpi = originalSize / DpiRatio.RATIO_XXHDPI;
                 break;
             case Dpi.XHDPI:
                 mdpi = originalSize / DpiRatio.RATIO_XHDPI;
